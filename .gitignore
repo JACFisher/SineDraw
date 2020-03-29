@@ -1,0 +1,9 @@
+# ignore .class files
+*.class
+
+# ignore .ctxt files
+*.ctxt
+
+# ignore bluej files
+*README.TXT
+*package.bluej
