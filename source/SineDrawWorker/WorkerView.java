@@ -1,7 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.FocusManager;
 
 //components:
 import javax.swing.JPanel;
@@ -51,7 +53,7 @@ public class WorkerView extends JPanel
         frequency = master.FREQUENCY_INIT;
         amplitude = master.AMP_INIT;
         phaseShift = master.PHASE_INIT;
-        
+
         buildStatusPanel();
         buildFrame();       
 
@@ -84,11 +86,35 @@ public class WorkerView extends JPanel
         statusLight.setForeground(Color.RED);
         statusPanel = new JPanel();
 
-        ipAddress = new JTextField(10);
+        ipAddress = new JTextField(10) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                if(getText().isEmpty() && ! (FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)){
+                    Graphics2D g2 = (Graphics2D)g.create();
+                    g2.setBackground(Color.gray);
+                    g2.drawString("IP ADDRESS", 5, 15);
+                    g2.dispose();
+                }
+            }            
+        };
         ipAddress.setMinimumSize(new Dimension(60,30));
         ipAddress.setMaximumSize(new Dimension(60,30));
 
-        port = new JTextField(5);
+        port = new JTextField(5) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                if(getText().isEmpty() && ! (FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)){
+                    Graphics2D g2 = (Graphics2D)g.create();
+                    g2.setBackground(Color.gray);
+                    g2.drawString("PORT", 5, 15);
+                    g2.dispose();
+                }
+            }                
+        };
         port.setMinimumSize(new Dimension(40,30));
         port.setMaximumSize(new Dimension(40,30));     
 
@@ -107,13 +133,13 @@ public class WorkerView extends JPanel
         statusPanel.add(connectButton);
     }
 
-        public void setWave(int frequency, int amplitude, int phaseShift)
+    public void setWave(int frequency, int amplitude, int phaseShift)
     {
         this.frequency = frequency;
         this.amplitude = amplitude;
         this.phaseShift = phaseShift;
     }
-    
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -158,7 +184,7 @@ public class WorkerView extends JPanel
             component.setEnabled(false);
         }
     }    
-    
+
     private void drawSineWaves(Graphics g, int phase) {
         for(double x = -2 * centerX; x <= 2 * centerX; x = x + 0.5) {
             double y = amplitude * Math.sin((x + phase) * frequency * (Math.PI / 180));

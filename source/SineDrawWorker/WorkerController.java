@@ -55,7 +55,9 @@ public class WorkerController implements ActionListener
         if (inboundSocket != null) 
         {
             view.updateStatusBar(inboundSocket.isConnected());
-        }        
+        }
+        view.ipAddress.repaint();
+        view.port.repaint();
         view.repaint();
 
         if(view.phase >= 360) {

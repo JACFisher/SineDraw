@@ -1,7 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.FocusManager;
 
 //components:
 import javax.swing.JComponent;
@@ -87,11 +89,35 @@ public class BossView extends JPanel
         statusLight.setForeground(Color.RED);
         statusPanel = new JPanel();
 
-        ipAddress = new JTextField(10);
+        ipAddress = new JTextField(10) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                if(getText().isEmpty() && ! (FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)){
+                    Graphics2D g2 = (Graphics2D)g.create();
+                    g2.setBackground(Color.gray);
+                    g2.drawString("IP ADDRESS", 5, 15);
+                    g2.dispose();
+                }
+            }
+        };
         ipAddress.setMinimumSize(new Dimension(60,30));
         ipAddress.setMaximumSize(new Dimension(60,30));
 
-        port = new JTextField(5);
+        port = new JTextField(5) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                if(getText().isEmpty() && ! (FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)){
+                    Graphics2D g2 = (Graphics2D)g.create();
+                    g2.setBackground(Color.gray);
+                    g2.drawString("PORT", 5, 15);
+                    g2.dispose();
+                }
+            }        
+        };
         port.setMinimumSize(new Dimension(40,30));
         port.setMaximumSize(new Dimension(40,30));     
 

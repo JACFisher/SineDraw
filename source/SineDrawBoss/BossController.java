@@ -66,6 +66,8 @@ public class BossController implements ActionListener, ChangeListener
     {
         view.setWave(model.getFrequency(), model.getAmplitude(), model.getPhaseShift());
         view.phase++;
+        view.ipAddress.repaint();
+        view.port.repaint();
         view.repaint();
         if (outboundSocket != null) 
         {
