@@ -91,7 +91,7 @@ public class ServerController implements Runnable
             nextWorkerThread.start();
         } else {
             System.out.printf("%s\n",
-                "An unrecogniced service has tried to connect"); 
+                "An unrecognized service has tried to connect"); 
         }
     }
 
@@ -133,7 +133,7 @@ public class ServerController implements Runnable
     {
         if (boss == null && workers.size() == 0)
         {
-            System.out.printf("%s\n", "No current connections.");
+            System.out.printf("%s\n\n", "No current connections.");
         } else {
             System.out.printf("%s\n", "Currently connected clients:");
         }

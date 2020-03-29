@@ -23,6 +23,7 @@ public class ServerListener implements Runnable
             String inbound = in.nextLine().toUpperCase();
             if (inbound.equals("EXIT"))
             {
+                System.out.println(); //space for formatting
                 in.close();
                 running = false;
                 master.end();                
