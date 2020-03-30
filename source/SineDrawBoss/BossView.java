@@ -24,6 +24,10 @@ import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import javax.swing.Box;
 
+/**
+ * The interactable display for the user.
+ */
+
 public class BossView extends JPanel
 {
     BossController master;
@@ -48,6 +52,9 @@ public class BossView extends JPanel
     JTextField ipAddress;
     JTextField port;
 
+    /**
+     * Constructor for objects of class BossView
+     */
     public BossView(BossController master) {
         this.master = master;
         frequency = master.FREQUENCY_INIT;
@@ -63,6 +70,9 @@ public class BossView extends JPanel
         timer.start();
     }
 
+    /**
+     * Build the sliders and attach listeners
+     */
     private void buildSliders()
     {
         phaseShiftSlider = new JSlider(JSlider.HORIZONTAL, master.PHASE_MIN, master.PHASE_MAX, phaseShift);
@@ -81,6 +91,9 @@ public class BossView extends JPanel
         frequencySlider.setPaintTicks(true);  
     }
 
+    /**
+     * Build the connection status panel
+     */
     private void buildStatusPanel()
     {
         statusMessage = new JLabel(" CONNECTION STATUS:  ");
@@ -92,8 +105,7 @@ public class BossView extends JPanel
         ipAddress = new JTextField(10) {
             @Override
             protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-
+                super.paintComponent(g); //placeholder text that disappears on focus; top accepted answer on stack overflow, originates from oracle forums
                 if(getText().isEmpty() && ! (FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)){
                     Graphics2D g2 = (Graphics2D)g.create();
                     g2.setBackground(Color.gray);
@@ -136,12 +148,15 @@ public class BossView extends JPanel
         statusPanel.add(connectButton);
     }
 
+    /**
+     * Builds the frame and adds components
+     */
     private void buildFrame()
     {
         frame = new JFrame();
         frame.setSize(450,400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("SineBoss");
+        frame.setTitle("SineDrawBoss");
 
         BoxLayout frameLayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(frameLayout);
@@ -154,6 +169,13 @@ public class BossView extends JPanel
         frame.setVisible(true); 
     }
 
+    /**
+     * Sets the frequency, amplitude, and phase shift.
+     * 
+     * @param frequency The sine wave's frequency
+     * @param amplitude The sine wave's amplitude
+     * @param phaseShift The sine wave's phase shift
+     */
     public void setWave(int frequency, int amplitude, int phaseShift)
     {
         this.frequency = frequency;
@@ -161,6 +183,11 @@ public class BossView extends JPanel
         this.phaseShift = phaseShift;
     }
 
+    /**
+     * Determine the current state of connection and update the status bar and update if appropriate.
+     * 
+     * @param status The connection status (true: connected; false: disconnected)
+     */
     public void updateStatusBar(boolean status)
     {
         if (status != barState)
@@ -175,6 +202,9 @@ public class BossView extends JPanel
         }
     }
 
+    /**
+     * Set the status bar to disconnected state
+     */
     private void setStatusBarDisconnected()
     {
         statusLight.setForeground(Color.RED);
@@ -184,6 +214,9 @@ public class BossView extends JPanel
         }
     }
 
+    /**
+     * Set the status bar to connected state
+     */
     private void setStatusBarConnected()
     {
         statusLight.setForeground(Color.GREEN);
@@ -193,6 +226,9 @@ public class BossView extends JPanel
         }
     }
 
+    /**
+     * Paint the view with an x and y axis followed by the sine wave
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -207,6 +243,11 @@ public class BossView extends JPanel
         drawSineWaves(g, phase);
     }
 
+    /**
+     * Paint the sine wave based on the current phase
+     * 
+     * @param phase The current phase/offset of the wave
+     */
     private void drawSineWaves(Graphics g, int phase) {
         for(double x = -2 * centerX; x <= 2 * centerX; x = x + 0.5) {
             double y = amplitude * Math.sin((x + phase) * frequency * (Math.PI / 180));

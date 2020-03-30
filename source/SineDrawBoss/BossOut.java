@@ -1,11 +1,21 @@
 import java.net.*;
 import java.io.*;
+
+/**
+ * Handles the connection and data flow between this client
+ * and the server.
+ */
 public class BossOut implements Runnable
 {
     BossController master;
     Socket connection;
     DataOutputStream output;
     boolean uninterrupted;
+    private static final int BOSS_ID = 1;
+    
+    /**
+     * Constructor for objects of class BossOut
+     */
     public BossOut(BossController master, String address, int port)
     {
         this.master = master;
@@ -18,10 +28,15 @@ public class BossOut implements Runnable
         }
     }
 
+    /**
+     * Send one int through the socket to identify this client, then while connected
+     * consistently send data in UTF form through the connection.  When no longer connected
+     * to the server, terminate.
+     */
     public void run()
     {
         try {
-            output.writeInt(1);
+            output.writeInt(BOSS_ID);
             output.flush();
         } catch (IOException e) {
             //common cause: server shutdown
@@ -36,7 +51,7 @@ public class BossOut implements Runnable
                 output.writeUTF(master.getWave());
                 output.flush();
             } catch (IOException e) {
-                uninterrupted = false;
+                uninterrupted = false; //if server shutds down, terminate
             }
         }        
         try {
@@ -46,6 +61,11 @@ public class BossOut implements Runnable
         }
     }
 
+    /**
+     * Return the status of the connection
+     * 
+     * @return boolean True if connected; false if disconnected
+     */
     public boolean isConnected()
     {
         return uninterrupted;

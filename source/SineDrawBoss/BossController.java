@@ -5,6 +5,12 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Creates the View and the Model.  Handles user interaction with sliders,
+ * buttons, and the connection bar.  Updates the model based on user
+ * input; updates the view at regular intervals with data from the model.
+ */
+
 public class BossController implements ActionListener, ChangeListener
 {
     BossView view;
@@ -13,12 +19,19 @@ public class BossController implements ActionListener, ChangeListener
     static final int PHASE_MIN = -180, PHASE_INIT = 0, PHASE_MAX = 180; //will overlap at each extreme
     static final int AMP_MIN = 0, AMP_INIT = 50, AMP_MAX = 100;
     static final int FREQUENCY_MIN = 1, FREQUENCY_INIT = 5, FREQUENCY_MAX = 10;    
+    
+    /**
+     * Constructor for objects of class BossController.
+     */
     public BossController()
     {
         model = new BossModel(FREQUENCY_INIT, AMP_INIT, PHASE_INIT);
         view = new BossView(this);
     }
 
+    /**
+     * Connect to the given address and port.
+     */
     public void connect(String address, int port)
     {
         outboundSocket = new BossOut(this, address, port);
@@ -26,6 +39,10 @@ public class BossController implements ActionListener, ChangeListener
         socketThread.start();        
     }
 
+    /**
+     * Handles state changes of the sliders in view.
+     * Reads their value and updates the model.
+     */
     public void stateChanged(ChangeEvent event)
     {
         JSlider source = (JSlider) event.getSource();
@@ -45,6 +62,11 @@ public class BossController implements ActionListener, ChangeListener
         }
     }
 
+    /**
+     * Handles action events.  Timer refreshes the view;
+     * connect button clicks parse data in the text fields
+     * and attempt to establish a connection.
+     */
     public void actionPerformed(ActionEvent event) 
     {
         if (event.getSource() == view.timer)
@@ -62,6 +84,9 @@ public class BossController implements ActionListener, ChangeListener
         }
     }
 
+    /**
+     * Updates the components in the view.
+     */
     private void refreshView()
     {
         view.setWave(model.getFrequency(), model.getAmplitude(), model.getPhaseShift());
@@ -79,6 +104,9 @@ public class BossController implements ActionListener, ChangeListener
         }
     }
 
+    /**
+     * Fetch the data from the model.
+     */
     public String getWave()
     {
         String data = String.format("%d,%d,%d",

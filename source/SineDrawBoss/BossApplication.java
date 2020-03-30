@@ -1,6 +1,6 @@
 
 /**
- * 
+ * Contains main method for SineDrawBoss.
  */
 public class BossApplication
 {
@@ -8,5 +8,4 @@ public class BossApplication
     {
         BossController boss = new BossController();        
     }
-
 }
