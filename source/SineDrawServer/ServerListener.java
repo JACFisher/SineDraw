@@ -1,13 +1,15 @@
 import java.util.Scanner;
-
 /**
- * 
+ * Waits for input from the user through System.in and interprets it for ServerController.
  */
 public class ServerListener implements Runnable
 {
     ServerController master;
     Scanner in;
 
+    /**
+     * Constructor for objects of type ServerListener
+     */
     public ServerListener(ServerController master)
     {
         this.master = master;
@@ -15,6 +17,10 @@ public class ServerListener implements Runnable
         in = new Scanner(System.in);
     }
 
+    /**
+     * Main loop.  Waits for user input, interprets it, and selects an appropriate response
+     * for ServerController.
+     */
     public void run()
     {
         boolean running = true;

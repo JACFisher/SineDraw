@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Write a description of class ServerController here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Creates the Model; continuously creates Handlers based on new connections; 
+ * Controls the flow of information between Handlers and the Model.
  */
 public class ServerController implements Runnable
 {
@@ -21,7 +19,8 @@ public class ServerController implements Runnable
     Scanner scan;
 
     /**
-     * Constructor for objects of class ServerController
+     * Empty onstructor for objects of class ServerController.  Calls the one int constructor
+     * with 0 as argument (allows Java to choose port) then prints command line usage message.
      */
     public ServerController()
     {
@@ -34,6 +33,11 @@ public class ServerController implements Runnable
         );
     }
 
+    /**
+     * One int constructor for objects of class ServerController.
+     * 
+     * @param inboundPort The port for this server to listen on.
+     */
     public ServerController(int inboundPort)
     {
         userListener = new ServerListener(this);
@@ -44,6 +48,11 @@ public class ServerController implements Runnable
         scan = new Scanner(System.in);
     }
 
+    /**
+     * Initializes the ServerListener, ServerSocket, displays server use instructions,
+     * then iterates over the main loop of the
+     * program.  Repeatedly accepts connections and builds handlers.
+     */
     public void run()
     {   
         Thread listenerThread = new Thread(userListener);
@@ -66,7 +75,6 @@ public class ServerController implements Runnable
         try {
             while (serverRunning)
             {
-
                 Socket socket = serverSocket.accept();
                 buildHandler(socket);
             }
@@ -76,6 +84,12 @@ public class ServerController implements Runnable
         }
     }
 
+    /**
+     * Assigns handlers to the given socket.  If WorkerHandler, add to workers.  If
+     * unrecognized data, display message and discard.
+     * 
+     * @param Socket A socket which needs a handler.
+     */
     private void buildHandler(Socket socket)
     {
         int type = Handler.determineType(socket);
@@ -90,11 +104,20 @@ public class ServerController implements Runnable
             Thread nextWorkerThread = new Thread(nextHandler);
             nextWorkerThread.start();
         } else {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                // attempt to close, but continue if unable.  Do not let unwanted connection
+                // interrupt work flow.
+            }
             System.out.printf("%s\n",
                 "An unrecognized service has tried to connect"); 
         }
     }
 
+    /**
+     * Displays a connection message.
+     */
     public void confirmConnection(Handler born)
     {
         System.out.printf("%s\n%s\n",
@@ -103,6 +126,9 @@ public class ServerController implements Runnable
         );
     }
 
+    /**
+     * Displays a message for disconnection and handles cleanup.
+     */
     public void severConnection(Handler dead)
     {
         System.out.printf("%s\n%s\n",
@@ -117,6 +143,10 @@ public class ServerController implements Runnable
         }
     }
 
+    /**
+     * Valid termination of program.  Called from ServerListener when user requests exit.
+     * Attempts to close each connection, displays send-off message, exits with code 0.
+     */
     public void end()
     {
         serverRunning = false;
@@ -129,6 +159,9 @@ public class ServerController implements Runnable
         System.exit(0); //happens outside of run, as run is waiting for a socket!
     }
 
+    /**
+     * Print each current connection.
+     */
     public void printConnections()
     {
         if (boss == null && workers.size() == 0)
@@ -147,11 +180,21 @@ public class ServerController implements Runnable
         }
     }
 
+    /**
+     * Handles data flow.  No argument returns model data.
+     * 
+     * @return String The data stored in the model.
+     */
     public String handleFlow()
     {
         return model.getData();
     }
 
+    /**
+     * Handles data flow.  String argument sets model data.
+     * 
+     * @param data Current data to update the model.
+     */
     public void handleFlow(String data)
     {
         model.setData(data);

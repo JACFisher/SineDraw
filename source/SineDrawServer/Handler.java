@@ -1,13 +1,11 @@
 import java.net.*;
 import java.io.*;
 /**
- * Abstract class Handler - write a description of the class here
- *
- * @author (your name here)
- * @version (version number or date here)
+ * Abstract class Handler.
  */
 public abstract class Handler implements Runnable
 {
+    private static String TYPE;
     ServerController master;
     boolean uninterrupted;
     Socket connection;
@@ -16,15 +14,28 @@ public abstract class Handler implements Runnable
     DataOutputStream outbound;
     int port;
 
-    public Handler(ServerController master, Socket connection)
+    /**
+     * Constructor for objects of Handler type.
+     * 
+     * @param master The ServerController which initialized this handler.
+     * @param connection The socket to assign to this handler.
+     * @param type This handler's type.
+     */
+    public Handler(ServerController master, Socket connection, String type)
     {
         this.master = master;
         this.connection = connection;
         address = connection.getInetAddress().toString();
         port = connection.getLocalPort();
         uninterrupted = true;
+        this.TYPE = type;
     }
 
+    /**
+     * Returns this handler's type and address.
+     * 
+     * @return String This handler's type and address.
+     */
     @Override
     public String toString()
     {
@@ -35,6 +46,12 @@ public abstract class Handler implements Runnable
         return me;
     }
 
+    /**
+     * Utility to determine the appropriate handler type for the given socket.  
+     * Target connections will transmit one int first as an id.
+     * 
+     * @param s Socket to identify 
+     */
     public static int determineType(Socket s)
     {
         try {
@@ -47,6 +64,9 @@ public abstract class Handler implements Runnable
         return -1; //-1 for failure to read inbound value
     }
 
+    /**
+     * Attempt to close this handler's socket
+     */
     public void kill()
     {
         try {
@@ -56,5 +76,13 @@ public abstract class Handler implements Runnable
         }
     }
 
-    abstract public String getType();
+    /**
+     * Return this handler's type in String form
+     * 
+     * @return String This handler's type.
+     */
+    public String getType()
+    {
+        return TYPE;
+    }
 }

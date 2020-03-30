@@ -6,13 +6,16 @@ import java.io.*;
  */
 public class BossHandler extends Handler
 {
-    DataInputStream input;
+    DataInputStream input;   
     /**
-     * Constructor for objects of class ServerBossHandler
+     * Constructor for objects of class BossHandler.
+     * 
+     * @param master The ServerController which initialized this handler.
+     * @param connection The socket to assign to this handler.
      */
     public BossHandler(ServerController master, Socket connection)
     {
-        super(master, connection);
+        super(master, connection, "Boss");
         try {
             input = new DataInputStream( 
                 new BufferedInputStream(connection.getInputStream())); 
@@ -21,6 +24,11 @@ public class BossHandler extends Handler
         }
     }
 
+    /**
+     * Confirm connection to ServerController then start the main loop of BossHandler.  Read
+     * UTF data through connection and send that data to ServerController to update the model.
+     * 
+     */
     @Override
     public void run()
     {
@@ -41,11 +49,4 @@ public class BossHandler extends Handler
             //if unable to close, move on
         }     
     }
-    
-    @Override
-    public String getType()
-    {
-        return "Boss";
-    }
-
 }

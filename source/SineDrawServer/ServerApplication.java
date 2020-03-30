@@ -1,6 +1,5 @@
-
 /**
- * 
+ * Contains main method for SineDrawServer
  */
 public class ServerApplication
 {
@@ -8,8 +7,8 @@ public class ServerApplication
     {
         if (args.length > 0)
         {
-            int minimumPort = 1024;
-            int maximumPort = 65535;
+            int minimumPort = 1024; //minimum unreserved port
+            int maximumPort = 65535; //maximum port
             try {
                 int port = Integer.parseInt(args[0]);
                 if (port < minimumPort || port > maximumPort) 
@@ -20,13 +19,13 @@ public class ServerApplication
                     Thread serverThread = new Thread(server);
                     serverThread.start();
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) { //if Integer cannot parse args[0] into int
                 System.out.printf("%s%s\n%s\n",
                     "You gave port number: ", args[0],
                     "This is not a valid port number."
                 );
                 System.exit(1);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) { //if port is lower than 1024 or higher than 65536
                 System.out.printf("%s%s\n%s%d%s%d\n%s\n",
                     "You gave port number: ", args[0],
                     "The usable range is between ", minimumPort, " and ", maximumPort,
