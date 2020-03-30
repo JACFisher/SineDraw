@@ -2,7 +2,8 @@ import java.net.*;
 import java.io.*;
 
 /**
- * 
+ * A handler for boss type clients.  Reads data through the socket
+ * for ServerController to process.
  */
 public class BossHandler extends Handler
 {

@@ -1,5 +1,6 @@
 /**
- * Contains main method for SineDrawServer
+ * Contains main method for SineDrawServer.  Allows for a
+ * port number as a command line argument
  */
 public class ServerApplication
 {

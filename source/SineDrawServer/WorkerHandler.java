@@ -1,7 +1,8 @@
 import java.net.*;
 import java.io.*;
 /**
- * 
+ * A handler for worker type clients.  Sends data through the socket
+ * for the worker client to draw. 
  */
 public class WorkerHandler extends Handler
 {
