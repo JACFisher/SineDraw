@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 /**
  * Creates the View and the Model.  Handles user interaction with sliders,
  * buttons, and the connection bar.  Updates the model based on user
- * input; updates the view at regular intervals with data from the model.
+ * input; updates the view at regular intervals with data from the model.  Acts
+ * as connection between BossOut and the Model.
  */
 
 public class BossController implements ActionListener, ChangeListener

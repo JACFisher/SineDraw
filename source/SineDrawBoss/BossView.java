@@ -184,7 +184,8 @@ public class BossView extends JPanel
     }
 
     /**
-     * Determine the current state of connection and update the status bar and update if appropriate.
+     * Determine the current state of connection and update 
+     * the status bar if appropriate.
      * 
      * @param status The connection status (true: connected; false: disconnected)
      */
@@ -203,7 +204,7 @@ public class BossView extends JPanel
     }
 
     /**
-     * Set the status bar to disconnected state
+     * Set the status bar to disconnected state.
      */
     private void setStatusBarDisconnected()
     {
@@ -215,7 +216,7 @@ public class BossView extends JPanel
     }
 
     /**
-     * Set the status bar to connected state
+     * Set the status bar to connected state.
      */
     private void setStatusBarConnected()
     {
@@ -246,7 +247,7 @@ public class BossView extends JPanel
     /**
      * Paint the sine wave based on the current phase
      * 
-     * @param phase The current phase/offset of the wave
+     * @param phase The current phase of the wave
      */
     private void drawSineWaves(Graphics g, int phase) {
         for(double x = -2 * centerX; x <= 2 * centerX; x = x + 0.5) {

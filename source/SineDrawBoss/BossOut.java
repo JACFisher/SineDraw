@@ -29,9 +29,7 @@ public class BossOut implements Runnable
     }
 
     /**
-     * Send one int through the socket to identify this client, then while connected
-     * consistently send data in UTF form through the connection.  When no longer connected
-     * to the server, terminate.
+     * Sends an id code then sends the model data through the connection.
      */
     public void run()
     {
