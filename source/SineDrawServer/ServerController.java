@@ -93,12 +93,12 @@ public class ServerController implements Runnable
     private void buildHandler(Socket socket)
     {
         int type = Handler.determineType(socket);
-        if (type == 1)
+        if (type == Handler.bossID())
         {
             boss = new BossHandler(this, socket);
             Thread bossThread = new Thread(boss);
             bossThread.start();
-        } else if (type == 2) {
+        } else if (type == Handler.workerID()) {
             WorkerHandler nextHandler = new WorkerHandler(this, socket);
             workers.add(nextHandler);
             Thread nextWorkerThread = new Thread(nextHandler);

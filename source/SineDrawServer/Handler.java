@@ -6,6 +6,8 @@ import java.io.*;
 public abstract class Handler implements Runnable
 {
     private static String TYPE;
+    private static final int BOSS_ID = 1;
+    private static final int WORKER_ID = 2;
     ServerController master;
     boolean uninterrupted;
     Socket connection;
@@ -64,6 +66,26 @@ public abstract class Handler implements Runnable
         return -1; //-1 for failure to read inbound value
     }
 
+    /**
+     * Utility to fetch WORKER_ID
+     * 
+     * @return ID for Worker clients
+     */
+    public static int workerID()
+    {
+        return WORKER_ID;
+    }
+    
+    /**
+     * Utility to fetch BOSS_ID
+     * 
+     * @return ID for Boss clients
+     */
+    public static int bossID()
+    {
+        return BOSS_ID;
+    }
+    
     /**
      * Attempt to close this handler's socket
      */
