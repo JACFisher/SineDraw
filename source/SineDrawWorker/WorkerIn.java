@@ -1,5 +1,9 @@
 import java.net.*;
 import java.io.*;
+/**
+ * Handles the connection and data flow between this client and
+ * the server.
+ */
 public class WorkerIn implements Runnable
 {
     WorkerController master;
@@ -7,7 +11,11 @@ public class WorkerIn implements Runnable
     DataInputStream input;
     DataOutputStream output;
     boolean uninterrupted;
+    private static final int WORKER_ID = 2;
     
+    /**
+     * Constructor for objects of class BossOut
+     */
     public WorkerIn(WorkerController master, String address, int port)
     {
         this.master = master;
@@ -21,10 +29,13 @@ public class WorkerIn implements Runnable
         }
     }     
 
+    /**
+     * Sends an id code then sends the model data through the connection.
+     */
     public void run()
     {
         try {
-            output.writeInt(2);
+            output.writeInt(WORKER_ID);
             output.flush();
         } catch (IOException e) {
             //common cause: server shutdown
@@ -51,6 +62,11 @@ public class WorkerIn implements Runnable
         }     
     }        
 
+    /**
+     * Returns the status of the connection
+     * 
+     * @return boolean True if connected; false if disconnected
+     */
     public boolean isConnected()
     {
         return uninterrupted;

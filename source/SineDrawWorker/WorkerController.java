@@ -1,7 +1,9 @@
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 /**
- * 
+ * Creates the View and the Model.  Handles user interaction with the connection bar.
+ * Updates the view at regular intervals with data from the model.  Acts as a connection
+ * between WorkerIn and the Model.
  */
 public class WorkerController implements ActionListener
 {
@@ -21,13 +23,21 @@ public class WorkerController implements ActionListener
         view = new WorkerView(this);    
     }
 
+    /**
+     * Connect to the given address and port.
+     */
     public void connect(String address, int port)
     {
         inboundSocket = new WorkerIn(this, address, port);
         Thread socketThread = new Thread(inboundSocket);
         socketThread.start();        
     }
-    
+
+    /**
+     * Handles action events.  Timer refreshes the view;
+     * connect button clicks parse data in the text fields
+     * and attempt to establish a connection.
+     */
     public void actionPerformed(ActionEvent event) 
     {
         if (event.getSource() == view.timer)
@@ -45,6 +55,10 @@ public class WorkerController implements ActionListener
         }
     }
 
+    /**
+     * Updates the components in the view; includes an update to the model to adjust
+     * closer to the target data (allows for a smoother transition in the view).
+     */
     private void refreshView()
     {
         model.adjustFrequency();
@@ -65,6 +79,9 @@ public class WorkerController implements ActionListener
         }
     }
 
+    /**
+     * Parse the data received from the server and updates the model.
+     */
     public void parseInput(String input)
     {
         String[] split = input.split(",", 3);

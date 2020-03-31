@@ -1,6 +1,6 @@
 
 /**
- * 
+ * Contains the main method for SineDrawWorker.
  */
 public class WorkerApplication
 {

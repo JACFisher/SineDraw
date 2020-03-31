@@ -21,7 +21,7 @@ import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import javax.swing.Box;
 /**
- * 
+ * The interactable display for the user.
  */
 public class WorkerView extends JPanel
 {
@@ -63,6 +63,9 @@ public class WorkerView extends JPanel
         timer.start();        
     }
 
+    /**
+     * Builds the frame and adds components
+     */
     private void buildFrame()
     {
         frame = new JFrame();
@@ -78,6 +81,9 @@ public class WorkerView extends JPanel
         frame.setVisible(true); 
     }
 
+    /**
+     * Builds the connection status panel.
+     */
     private void buildStatusPanel()
     {
         statusMessage = new JLabel("  CONNECTION STATUS:  ");
@@ -133,6 +139,13 @@ public class WorkerView extends JPanel
         statusPanel.add(connectButton);
     }
 
+    /**
+     * Sets the frequency, amplitude, and phase shift.
+     * 
+     * @param frequency The sine wave's frequency
+     * @param amplitude The sine wave's amplitude
+     * @param phaseShift The sine wave's phase shift
+     */
     public void setWave(int frequency, int amplitude, int phaseShift)
     {
         this.frequency = frequency;
@@ -153,6 +166,12 @@ public class WorkerView extends JPanel
         drawSineWaves(g, phase);
     }
 
+    /**
+     * Determine the current state of the connection and update
+     * the status bar if appropriate.
+     * 
+     * @param status The connection status (true: connected; false: disconnected)
+     */
     public void updateStatusBar(boolean status)
     {
         if (status != barState)
@@ -167,6 +186,9 @@ public class WorkerView extends JPanel
         }
     }
 
+    /**
+     * Set the status bar to disconnected state.
+     */
     private void setStatusBarDisconnected()
     {
         statusLight.setForeground(Color.RED);
@@ -176,6 +198,9 @@ public class WorkerView extends JPanel
         }
     }
 
+    /**
+     * Set the status bar to connected state.
+     */
     private void setStatusBarConnected()
     {
         statusLight.setForeground(Color.GREEN);
@@ -185,6 +210,11 @@ public class WorkerView extends JPanel
         }
     }    
 
+    /**
+     * Paint the sine wave based on the current phase
+     * 
+     * @param phase The current phase of the wave
+     */
     private void drawSineWaves(Graphics g, int phase) {
         for(double x = -2 * centerX; x <= 2 * centerX; x = x + 0.5) {
             double y = amplitude * Math.sin((x + phase) * frequency * (Math.PI / 180));
